@@ -23,6 +23,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  shared_preferences:
+  get_it:
+  provider:
+  google_fonts:
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -32,6 +36,8 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  build_runner:
+  json_serializable:
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
