@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:news_app/pages/homepage.dart';
+import 'package:news_app/utils/themes.dart';
 
 void main() {
   runApp(MyApp());
@@ -10,11 +12,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Iroyin',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      // home: MyHomePage(title: 'Flutter Demo Home Page'),
+      theme: ThemeStyle.lightTheme,
+      home: HomePage(),
     );
   }
 }
