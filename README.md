@@ -12,8 +12,8 @@ Make sure you have the following installed on your system:
   - Android studio or VS Code
 
 Test if your installations are intact by running
-  flutter doctor
+  - $ flutter doctor
   
 Build the app by running 
-  flutter run
+  - $ flutter run
   
