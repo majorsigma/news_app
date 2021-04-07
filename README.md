@@ -1,16 +1,19 @@
 # news_app
 
-A new Flutter project.
+An app that fetches news data from newsapi.org via RESTful API
 
 ## Getting Started
+This app aids getting timely information of wide range of news categories. 
 
-This project is a starting point for a Flutter application.
+## Installation
+Make sure you have the following installed on your system:
+  - Anroid Emulator
+  - Flutter SDK
+  - Android studio or VS Code
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Test if your installations are intact by running
+  flutter doctor
+  
+Build the app by running 
+  flutter run
+  
