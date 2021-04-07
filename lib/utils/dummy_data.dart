@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:news_app/models/article.dart';
+import 'package:news_app/models/dummy_images.dart';
 
 class DummyData {
   static List<String> tabTitles = [
@@ -35,8 +36,18 @@ class DummyData {
         shrinkWrap: true,
         itemCount: articleList.length,
         itemBuilder: (context, index) => ListTile(
+          leading: ClipRRect(
+            borderRadius: BorderRadius.circular(10),
+            child: Image.asset(
+              DummyImages.imageList[index],
+              width: 70,
+              height: 80,
+              fit: BoxFit.cover,
+            ),
+          ),
           title: Text(
             articleList[index].title,
+            maxLines: 2,
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
           subtitle: Text(
@@ -45,7 +56,6 @@ class DummyData {
           ),
         ),
       );
-
       tabViewWidgets.add(listView);
     });
     return tabViewWidgets;
