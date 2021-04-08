@@ -1,10 +1,14 @@
 import 'dart:ui';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:news_app/models/article.dart';
-import 'package:news_app/models/dummy_images.dart';
-import 'package:news_app/utils/dummy_data.dart';
+import 'package:news_app/models/news_model.dart';
+import 'package:news_app/modelview/articles_modelview.dart';
+import 'package:news_app/services/api_service.dart';
+import 'package:news_app/services/service_locator.dart';
+import 'package:news_app/utils/constants.dart';
+import 'package:news_app/widgets/tab_widgets.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -15,14 +19,24 @@ class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
   List<Tab> _tabs;
   TabController _tabController;
+  ArticleModelView _articleModelView;
+  ApiService _apiService;
+  Future<News> _news;
 
   @override
   void initState() {
     super.initState();
-    _tabs = DummyData.createListOfTabs();
+    _tabs = createListOfTabs();
     _tabController = TabController(
-      length: DummyData.tabTitles.length,
+      length: tabTitles.length,
       vsync: this,
+    );
+    _apiService = getIt.get<ApiService>();
+    _articleModelView = ArticleModelView();
+    _news = _apiService.fetchNews(
+      client: _apiService.httpClient,
+      url: _apiService.getTopHeadLinesURL,
+      headers: {'X-Api-Key': _apiService.getAPIKey},
     );
   }
 
@@ -62,7 +76,7 @@ class _HomePageState extends State<HomePage>
               BoxConstraints.expand(height: MediaQuery.of(context).size.height),
           child: TabBarView(
             controller: _tabController,
-            children: DummyData.createListOfTabViewWidgets(),
+            children: getTabViewWidgets(),
           ),
         ),
       ],
@@ -74,45 +88,59 @@ class _HomePageState extends State<HomePage>
       padding: const EdgeInsets.only(left: 16.0),
       child: Container(
         height: 400,
-        child: ListView.separated(
-          scrollDirection: Axis.horizontal,
-          itemCount: Article.getArticles().length,
-          separatorBuilder: (context, index) => SizedBox(
-            width: 16,
-          ),
-          itemBuilder: (context, index) {
-            return ClipRRect(
-              borderRadius: BorderRadius.circular(20),
-              child: Stack(
-                children: [
-                  Container(
-                    child: AspectRatio(
-                      aspectRatio: 0.75,
-                      child: Image.asset(
-                        DummyImages.imageList[index],
-                        fit: BoxFit.cover,
-                      ),
+        child: FutureBuilder<News>(
+          future: _news,
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            } else {
+              return ListView.separated(
+                scrollDirection: Axis.horizontal,
+                itemCount: snapshot.data.articles.getRange(5, 10).length,
+                separatorBuilder: (context, index) => SizedBox(
+                  width: 16,
+                ),
+                itemBuilder: (context, index) {
+                  return ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: Stack(
+                      children: [
+                        Container(
+                          child: AspectRatio(
+                            aspectRatio: 0.75,
+                            child: snapshot.data.articles[index].urlToImage == null
+                             ? Image.asset('assets/images/ship.jpg', fit: BoxFit.cover)
+                             : CachedNetworkImage(
+                              imageUrl:
+                                  snapshot.data.articles[index].urlToImage,
+                              placeholder: (context, message) =>
+                                  Center(child: CircularProgressIndicator()),
+                              errorWidget: (context, _, __) =>
+                                  Image.asset('assets/images/ship.jpg'),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                        buildPositionedOverlayWidget(snapshot, index),
+                      ],
                     ),
-                  ),
-                  buildPositionedOverlayWidget(index),
-                ],
-              ),
-            );
+                  );
+                },
+              );
+            }
           },
         ),
       ),
     );
   }
 
-  Positioned buildPositionedOverlayWidget(int index) {
+  Positioned buildPositionedOverlayWidget(AsyncSnapshot<News> news, int index) {
     return Positioned(
       bottom: 0,
       left: 0,
       right: 0,
-      // top: 200,
-      // child: Container(
-      //   child: BackdropFilter(
-      //     filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
       child: Container(
         color: Colors.black54.withOpacity(0.3),
         child: Padding(
@@ -124,7 +152,7 @@ class _HomePageState extends State<HomePage>
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                Article.getArticles()[index].title,
+                news.data.articles[index].title,
                 maxLines: 3,
                 style: TextStyle(
                   color: Colors.white,
@@ -136,7 +164,9 @@ class _HomePageState extends State<HomePage>
                 height: 10,
               ),
               Text(
-                Article.getArticles()[index].content,
+                news.data.articles[index].content == null
+                    ? ""
+                    : news.data.articles[index].content,
                 maxLines: 3,
                 style: TextStyle(
                   color: Colors.white,
@@ -147,11 +177,14 @@ class _HomePageState extends State<HomePage>
                 height: 10,
               ),
               Text(
-                Article.getArticles()[index].publishedAt,
+                DateFormat.yMMMMd()
+                    .add_jm()
+                    .format(news.data.articles[index].publishedAt),
                 maxLines: 3,
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: 14, // fontWeight: FontWeight.bold,
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
             ],
@@ -175,10 +208,10 @@ class _HomePageState extends State<HomePage>
             ),
             onPressed: () {
               print('Date/Time now: ${DateTime.now()}');
+              // createListOfTabViewWidgets();
             },
           ),
           CircleAvatar(
-            // backgroundImage: Image.asset("name"),
             child: Icon(Icons.person),
           ),
         ],
