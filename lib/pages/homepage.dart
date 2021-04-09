@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:news_app/models/news_model.dart';
+import 'package:news_app/pages/news_detail_page.dart';
 import 'package:news_app/services/api_service.dart';
 import 'package:news_app/services/service_locator.dart';
 import 'package:news_app/utils/constants.dart';
@@ -102,31 +103,46 @@ class _HomePageState extends State<HomePage>
                   width: 16,
                 ),
                 itemBuilder: (context, index) {
-                  return ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
-                    child: Stack(
-                      children: [
-                        Container(
-                          child: AspectRatio(
-                            aspectRatio: 0.75,
-                            child: snapshot.data.articles[index].urlToImage ==
-                                    null
-                                ? Image.asset('assets/images/ship.jpg',
-                                    fit: BoxFit.cover)
-                                : CachedNetworkImage(
-                                    imageUrl: snapshot
-                                        .data.articles[index].urlToImage,
-                                    placeholder: (context, message) => Center(
-                                        child: CircularProgressIndicator()),
-                                    errorWidget: (context, _, __) =>
-                                        Image.asset('assets/images/ship.jpg', fit: BoxFit.cover),
-                                    fit: BoxFit.cover,
-                                  ),
+                  return GestureDetector(
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(20),
+                      child: Stack(
+                        children: [
+                          Container(
+                            child: AspectRatio(
+                              aspectRatio: 0.75,
+                              child: snapshot.data.articles[index].urlToImage ==
+                                      null
+                                  ? Image.asset('assets/images/ship.jpg',
+                                      fit: BoxFit.cover)
+                                  // : CachedNetworkImage(
+                                  //     imageUrl: snapshot
+                                  //         .data.articles[index].urlToImage,
+                                  //     placeholder: (context, message) => Center(
+                                  //         child: CircularProgressIndicator()),
+                                  //     errorWidget: (context, _, __) =>
+                                  //         Image.asset('assets/images/ship.jpg',
+                                  //             fit: BoxFit.cover),
+                                  //     fit: BoxFit.cover,
+                                  //   ),
+                                  : Image.asset('assets/images/ship.jpg',
+                                      fit: BoxFit.cover),
+                            ),
                           ),
-                        ),
-                        buildPositionedOverlayWidget(snapshot, index),
-                      ],
+                          buildPositionedOverlayWidget(snapshot, index),
+                        ],
+                      ),
                     ),
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) {
+                          return NewsDetailPage(
+                            url: snapshot.data.articles[index].url,
+                            title: snapshot.data.articles[index].title,
+                          );
+                        }),
+                      );
+                    },
                   );
                 },
               );
