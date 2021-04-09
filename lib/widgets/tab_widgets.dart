@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:news_app/models/dummy_images.dart';
 import 'package:news_app/models/news_model.dart';
 import 'package:news_app/services/api_service.dart';
 import 'package:news_app/services/service_locator.dart';

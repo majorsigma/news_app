@@ -7,7 +7,6 @@ import 'package:http/http.dart' as http;
 class ApiService {
   final String _apiKey = "817a77067588467cbe8d54232d3c400a";
   final _topHeadLinesURL = "https://newsapi.org/v2/top-headlines?country=us";
-  final _everythingURL = "https://newsapi.org/v2/everything";
   final _sourcesURL = "https://newsapi.org/v2/sources";
   http.Client httpClient;
 
@@ -23,8 +22,7 @@ class ApiService {
     Map<String, String> headers,
   }) async {
     Map<String, dynamic> jsonData = {};
-    var urlToContent = Uri.parse(url);
-    News news = null;
+    News news;
     var response = await client.get(url, headers: headers);
     if (response.statusCode == 200) {
       jsonData = jsonDecode(response.body);
