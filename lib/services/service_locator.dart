@@ -5,5 +5,8 @@ import 'package:http/http.dart' as http;
 GetIt getIt = GetIt.instance;
 
 void setupGetIt() {
-  getIt.registerSingleton<ApiService>(ApiService(httpClient: http.Client()));
+  
+  // Registers the ApiService instance so that it can be assessed anywhere in the app 
+  // to perform its functions.
+  getIt.registerLazySingleton<ApiService>(() => ApiService(httpClient: http.Client()));
 }

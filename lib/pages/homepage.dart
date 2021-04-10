@@ -39,6 +39,13 @@ class _HomePageState extends State<HomePage>
   }
 
   @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
+  // Builds the HomePage widget
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: buildAppBar(),
@@ -47,42 +54,55 @@ class _HomePageState extends State<HomePage>
   }
 
   Widget buildPageListView() {
-    return ListView(
-      shrinkWrap: true,
-      children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.only(left: 16.0),
-          child: Text(
-            'Breaking News',
-            style: TextStyle(
-              fontSize: 36,
-              fontWeight: FontWeight.bold,
+    return RefreshIndicator(
+      onRefresh: () async {
+        print('refreshing...');
+        setState(() {
+          _news = _apiService.fetchNews(
+            client: _apiService.httpClient,
+            url: _apiService.getTopHeadLinesURL,
+            headers: {'X-Api-Key': _apiService.getAPIKey},
+          );
+        });
+      },
+      child: ListView(
+        shrinkWrap: true,
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.only(left: 16.0),
+            child: Text(
+              'Breaking News',
+              style: TextStyle(
+                fontSize: 36,
+                fontWeight: FontWeight.bold,
+              ),
+              textAlign: TextAlign.left,
             ),
-            textAlign: TextAlign.left,
           ),
-        ),
-        SizedBox(height: 20),
-        buildSlidingNewsWidget(),
-        SizedBox(height: 20),
-        TabBar(
-          tabs: _tabs,
-          controller: _tabController,
-          isScrollable: true,
-          unselectedLabelColor: Colors.grey,
-          labelColor: Color(0xFFE44F50),
-        ),
-        Container(
-          constraints:
-              BoxConstraints.expand(height: MediaQuery.of(context).size.height),
-          child: TabBarView(
+          SizedBox(height: 20),
+          buildSlidingNewsWidget(),
+          SizedBox(height: 20),
+          TabBar(
+            tabs: _tabs,
             controller: _tabController,
-            children: getTabViewWidgets(),
+            isScrollable: true,
+            unselectedLabelColor: Colors.grey,
+            labelColor: Color(0xFFE44F50),
           ),
-        ),
-      ],
+          Container(
+            constraints: BoxConstraints.expand(
+                height: MediaQuery.of(context).size.height),
+            child: TabBarView(
+              controller: _tabController,
+              children: getTabViewWidgets(),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
+  // Returns a Sliding Widget in the form of listview oriented horizontally.
   Widget buildSlidingNewsWidget() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -96,7 +116,7 @@ class _HomePageState extends State<HomePage>
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Image.asset('assets/images/con.png'),
+                    Image.asset('assets/images/connection_error.png'),
                     SizedBox(
                       height: 30,
                     ),
@@ -175,6 +195,7 @@ class _HomePageState extends State<HomePage>
     );
   }
 
+  // Displays a title, subtitle, timestamp on each sliding image
   Positioned buildPositionedOverlayWidget(AsyncSnapshot<News> news, int index) {
     return Positioned(
       bottom: 0,
@@ -235,6 +256,7 @@ class _HomePageState extends State<HomePage>
     );
   }
 
+  // Builds the app bar of the pplication
   AppBar buildAppBar() {
     return AppBar(
       title: Row(

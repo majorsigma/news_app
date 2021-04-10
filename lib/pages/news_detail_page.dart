@@ -12,6 +12,7 @@ class NewsDetailPage extends StatelessWidget {
         _title = title,
         super(key: key);
 
+  // Builds the ui of the news detail page rendering content as a SingleChildScrollView.
   @override
   Widget build(BuildContext context) {
     return Scaffold(

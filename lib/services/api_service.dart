@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:news_app/models/news_model.dart';
 import 'package:http/http.dart' as http;
 
+// This class helps with making import calls to backend
 class ApiService {
   final String _apiKey = "817a77067588467cbe8d54232d3c400a";
   final _topHeadLinesURL = "https://newsapi.org/v2/top-headlines?country=us";
@@ -16,6 +17,9 @@ class ApiService {
   String get getTopHeadLinesURL => _topHeadLinesURL;
   String get getSourcesURL => _sourcesURL;
 
+  // Fetches news from the Web Server throught Restful Api
+  // then convert returned response to News object.
+  // and finally returns a Future<News>.
   Future<News> fetchNews({
     http.Client client,
     String url,
@@ -34,6 +38,7 @@ class ApiService {
     return news;
   }
 
+  // helps loading the html content from a url and the returns it as a future
   Future<String> loadPage(String url) async {
     http.Client client = http.Client();
     http.Response response = await client.get(url);
