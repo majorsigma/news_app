@@ -5,7 +5,7 @@ class ThemeStyle {
     fontFamily: "Lato",
     primaryColor: Colors.white,
     canvasColor: Colors.white,
-    primarySwatch: Colors.blue
+    accentColor: Color(0xFFE44F50)
   );
 
   static ThemeData darkTheme = ThemeData(

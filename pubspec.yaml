@@ -30,6 +30,7 @@ dependencies:
   intl:
   http:
   flutter_html:
+  splashscreen:
 
 dev_dependencies:
   flutter_test:

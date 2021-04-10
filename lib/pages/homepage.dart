@@ -69,7 +69,7 @@ class _HomePageState extends State<HomePage>
           controller: _tabController,
           isScrollable: true,
           unselectedLabelColor: Colors.grey,
-          labelColor: Colors.blue,
+          labelColor: Color(0xFFE44F50),
         ),
         Container(
           constraints:
@@ -85,13 +85,33 @@ class _HomePageState extends State<HomePage>
 
   Widget buildSlidingNewsWidget() {
     return Padding(
-      padding: const EdgeInsets.only(left: 16.0),
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: Container(
         height: 400,
         child: FutureBuilder<News>(
           future: _news,
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Image.asset('assets/images/con.png'),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    Text(
+                      "Please make sure you have active Internet!!!",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                ),
+              );
+            } else if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(
                 child: CircularProgressIndicator(),
               );
@@ -113,20 +133,22 @@ class _HomePageState extends State<HomePage>
                               aspectRatio: 0.75,
                               child: snapshot.data.articles[index].urlToImage ==
                                       null
-                                  ? Image.asset('assets/images/ship.jpg',
-                                      fit: BoxFit.cover)
+                                  ? Image.asset(
+                                      'assets/images/ship.jpg',
+                                      fit: BoxFit.cover,
+                                    )
                                   : CachedNetworkImage(
                                       imageUrl: snapshot
                                           .data.articles[index].urlToImage,
                                       placeholder: (context, message) => Center(
                                           child: CircularProgressIndicator()),
                                       errorWidget: (context, _, __) =>
-                                          Image.asset('assets/images/ship.jpg',
-                                              fit: BoxFit.cover),
+                                          Image.asset(
+                                        'assets/images/ship.jpg',
+                                        fit: BoxFit.cover,
+                                      ),
                                       fit: BoxFit.cover,
                                     ),
-                                  // : Image.asset('assets/images/ship.jpg',
-                                  //     fit: BoxFit.cover),
                             ),
                           ),
                           buildPositionedOverlayWidget(snapshot, index),

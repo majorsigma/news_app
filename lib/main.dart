@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:news_app/pages/homepage.dart';
 import 'package:news_app/services/service_locator.dart';
 import 'package:news_app/utils/themes.dart';
+import 'package:splashscreen/splashscreen.dart';
 
 void main() {
   setupGetIt();
@@ -16,7 +17,18 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'News',
       theme: ThemeStyle.lightTheme,
-      home: HomePage(),
+      home: SplashScreen(
+          seconds: 4,
+          navigateAfterSeconds: new HomePage(),
+          title: new Text(
+            'Simple News Reader',
+            style: new TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
+          ),
+          image: new Image.asset('assets/images/news_icon.png'),
+          backgroundColor: Colors.white,
+          styleTextUnderTheLoader: new TextStyle(),
+          photoSize: 200.0,
+          loaderColor: Color(0xFFE44F50)),
     );
   }
 }
