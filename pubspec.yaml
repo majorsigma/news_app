@@ -29,7 +29,7 @@ dependencies:
   cached_network_image:
   intl:
   http:
-  url_launcher:
+  flutter_html:
 
 dev_dependencies:
   flutter_test:

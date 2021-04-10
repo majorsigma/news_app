@@ -33,4 +33,11 @@ class ApiService {
 
     return news;
   }
+
+  Future<String> loadPage(String url) async {
+    http.Client client = http.Client();
+    http.Response response = await client.get(url);
+    print(response.body);
+    return response.body;
+  }
 }

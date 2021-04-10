@@ -115,18 +115,18 @@ class _HomePageState extends State<HomePage>
                                       null
                                   ? Image.asset('assets/images/ship.jpg',
                                       fit: BoxFit.cover)
-                                  // : CachedNetworkImage(
-                                  //     imageUrl: snapshot
-                                  //         .data.articles[index].urlToImage,
-                                  //     placeholder: (context, message) => Center(
-                                  //         child: CircularProgressIndicator()),
-                                  //     errorWidget: (context, _, __) =>
-                                  //         Image.asset('assets/images/ship.jpg',
-                                  //             fit: BoxFit.cover),
-                                  //     fit: BoxFit.cover,
-                                  //   ),
-                                  : Image.asset('assets/images/ship.jpg',
-                                      fit: BoxFit.cover),
+                                  : CachedNetworkImage(
+                                      imageUrl: snapshot
+                                          .data.articles[index].urlToImage,
+                                      placeholder: (context, message) => Center(
+                                          child: CircularProgressIndicator()),
+                                      errorWidget: (context, _, __) =>
+                                          Image.asset('assets/images/ship.jpg',
+                                              fit: BoxFit.cover),
+                                      fit: BoxFit.cover,
+                                    ),
+                                  // : Image.asset('assets/images/ship.jpg',
+                                  //     fit: BoxFit.cover),
                             ),
                           ),
                           buildPositionedOverlayWidget(snapshot, index),
@@ -223,13 +223,10 @@ class _HomePageState extends State<HomePage>
               Icons.menu,
               size: 32,
             ),
-            onPressed: () {
-              print('Date/Time now: ${DateTime.now()}');
-              // createListOfTabViewWidgets();
-            },
+            onPressed: () {},
           ),
           CircleAvatar(
-            child: Icon(Icons.person),
+            backgroundImage: AssetImage('assets/images/user.jpg'),
           ),
         ],
       ),

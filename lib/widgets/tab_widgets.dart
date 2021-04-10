@@ -48,20 +48,21 @@ List<Widget> getTabViewWidgets() {
                 leading: AspectRatio(
                   aspectRatio: 1.5,
                   child: ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: snapshot.data.articles[index].urlToImage == null
-                          ? Image.asset('assets/images/placeholder.png',
-                              fit: BoxFit.cover)
-                          // : CachedNetworkImage(
-                          //     imageUrl: snapshot.data.articles[index].urlToImage,
-                          //     errorWidget: (context, _, __) => Image.asset(
-                          //       'assets/images/ship.jpg',
-                          //       fit: BoxFit.cover,
-                          //     ),
-                          //     fit: BoxFit.cover,
-                          //   ),
-                          : Image.asset('assets/images/placeholder.png',
-                              fit: BoxFit.cover)),
+                    borderRadius: BorderRadius.circular(10),
+                    child: snapshot.data.articles[index].urlToImage == null
+                        ? Image.asset('assets/images/placeholder.png',
+                            fit: BoxFit.cover)
+                        : CachedNetworkImage(
+                            imageUrl: snapshot.data.articles[index].urlToImage,
+                            errorWidget: (context, _, __) => Image.asset(
+                              'assets/images/ship.jpg',
+                              fit: BoxFit.cover,
+                            ),
+                            fit: BoxFit.cover,
+                          ),
+                        // : Image.asset('assets/images/placeholder.png',
+                        //     fit: BoxFit.cover),
+                  ),
                 ),
                 title: Text(
                   snapshot.data.articles[index].title == null
