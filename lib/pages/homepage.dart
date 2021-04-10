@@ -49,11 +49,11 @@ class _HomePageState extends State<HomePage>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: buildAppBar(),
-      body: buildPageListView(),
+      body: buildPageListView(context),
     );
   }
 
-  Widget buildPageListView() {
+  Widget buildPageListView(BuildContext context) {
     return RefreshIndicator(
       onRefresh: () async {
         print('refreshing...');
@@ -67,6 +67,7 @@ class _HomePageState extends State<HomePage>
       },
       child: ListView(
         shrinkWrap: true,
+        physics: AlwaysScrollableScrollPhysics(),
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.only(left: 16.0),
@@ -94,7 +95,7 @@ class _HomePageState extends State<HomePage>
                 height: MediaQuery.of(context).size.height),
             child: TabBarView(
               controller: _tabController,
-              children: getTabViewWidgets(),
+              children: getTabViewWidgets(context),
             ),
           ),
         ],
@@ -137,6 +138,7 @@ class _HomePageState extends State<HomePage>
               );
             } else {
               return ListView.separated(
+                physics: PageScrollPhysics(),
                 scrollDirection: Axis.horizontal,
                 itemCount: snapshot.data.articles.getRange(5, 10).length,
                 separatorBuilder: (context, index) => SizedBox(

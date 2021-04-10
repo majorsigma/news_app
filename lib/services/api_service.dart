@@ -32,7 +32,7 @@ class ApiService {
       jsonData = jsonDecode(response.body);
       news = News.fromJson(jsonData);
     } else {
-      throw http.ClientException;
+      print(response.statusCode);
     }
 
     return news;

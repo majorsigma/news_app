@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:news_app/models/news_model.dart';
 import 'package:news_app/pages/news_detail_page.dart';
 import 'package:news_app/services/api_service.dart';
@@ -21,18 +22,18 @@ List<Tab> createListOfTabs() {
   return tabList;
 }
 
-List<Widget> getTabViewWidgets() {
+List<Widget> getTabViewWidgets(BuildContext context) {
   ApiService apiService = getIt.get<ApiService>();
   List<Widget> widgetList = [];
   tabTitles.forEach((element) {
     String name = element.toLowerCase();
     String newUrl = apiService.getTopHeadLinesURL + "&category=$name";
-
-    Future<News> news = apiService.fetchNews(
+    Future<News> news;
+    news = apiService.fetchNews(
         client: apiService.httpClient,
         url: newUrl,
         headers: {"X-Api-Key": apiService.getAPIKey});
-
+        
     FutureBuilder futureBuilder = FutureBuilder<News>(
       future: news,
       builder: (context, snapshot) {
@@ -60,8 +61,8 @@ List<Widget> getTabViewWidgets() {
                             ),
                             fit: BoxFit.cover,
                           ),
-                        // : Image.asset('assets/images/placeholder.png',
-                        //     fit: BoxFit.cover),
+                    // : Image.asset('assets/images/placeholder.png',
+                    //     fit: BoxFit.cover),
                   ),
                 ),
                 title: Text(
