@@ -25,10 +25,10 @@ class MyApp extends StatelessWidget {
             'Simple News Reader',
             style: new TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
           ),
-          image: new Image.asset('assets/images/news_icon.png'),
+          image: new Image.asset('assets/images/news_app.png', width: 300, height: 200,),
           backgroundColor: Colors.white,
           styleTextUnderTheLoader: new TextStyle(),
-          photoSize: 200.0,
+          photoSize: 100.0,
           loaderColor: Color(0xFFE44F50)),
     );
   }
