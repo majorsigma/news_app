@@ -41,13 +41,14 @@ List<Widget> getTabViewWidgets(BuildContext context) {
           return Center(child: CircularProgressIndicator());
         } else {
           return ListView.builder(
+            physics: ClampingScrollPhysics(),
             scrollDirection: Axis.vertical,
             shrinkWrap: true,
             itemCount: snapshot.data.articles.length,
             itemBuilder: (context, index) => GestureDetector(
               child: ListTile(
                 leading: AspectRatio(
-                  aspectRatio: 1.5,
+                  aspectRatio: 1.7,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10),
                     child: snapshot.data.articles[index].urlToImage == null
@@ -75,8 +76,8 @@ List<Widget> getTabViewWidgets(BuildContext context) {
                 subtitle: Text(
                   snapshot.data.articles[index].content == null
                       ? ""
-                      : snapshot.data.articles[index].title,
-                  maxLines: 2,
+                      : snapshot.data.articles[index].content,
+                  maxLines: 3,
                 ),
               ),
               onTap: () {

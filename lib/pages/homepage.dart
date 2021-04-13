@@ -112,7 +112,10 @@ class _HomePageState extends State<HomePage>
         child: FutureBuilder<News>(
           future: _news,
           builder: (context, snapshot) {
-            if (!snapshot.hasData) {
+            if (!snapshot.hasData ||
+                snapshot.connectionState == ConnectionState.waiting) {
+              return Center(child: CircularProgressIndicator());
+            } else if (snapshot.hasError) {
               return Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -131,10 +134,6 @@ class _HomePageState extends State<HomePage>
                     ),
                   ],
                 ),
-              );
-            } else if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(
-                child: CircularProgressIndicator(),
               );
             } else {
               return ListView.separated(

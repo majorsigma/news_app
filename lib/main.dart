@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'News',
       theme: ThemeStyle.lightTheme,
-      // Opens a Splashscreen before the home pae is displayed
+      // Opens a Splashscreen before the home page is displayed
       home: SplashScreen(
           seconds: 4,
           navigateAfterSeconds: new HomePage(),

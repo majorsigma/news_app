@@ -33,6 +33,7 @@ class ApiService {
       news = News.fromJson(jsonData);
     } else {
       print(response.statusCode);
+      throw http.ClientException;
     }
 
     return news;

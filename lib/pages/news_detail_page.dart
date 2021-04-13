@@ -21,6 +21,7 @@ class NewsDetailPage extends StatelessWidget {
         title: Text(_title),
       ),
       body: SingleChildScrollView(
+        physics: AlwaysScrollableScrollPhysics(),
         child: Container(
           child: Padding(
             padding: const EdgeInsets.all(8.0),
